@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typing Speed - Express</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+    <h1>Typing Speed Express</h1>
+    <h3>Employee Directory for Typing Speed</h3>
+      <hr>
+      <a href="/add"><button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-plus"></span> Add New Employee</button></a>
+    </div>
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Find Employee</strong></h3>
+          </div>
+          <div class="panel-body">
+            <input type="text" id="Employee-search" class="form-control">
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="search-btn"><span class="glyphicon glyphicon-search"></span> Search</button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Employee Statistics</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="well">
+              <h2 id="name">Jeff</h2>
+              <div id="stats">
+                <h3><strong>Role:</strong> <span id="role">Administrator</span></h3>
+                <h3><strong>Age:</strong> <span id="age">35</span></h3>
+                <h3><strong>Typing Speed:</strong> <span id="typing-speed">60</span></h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $("#search-btn").on("click", function() {
+      var searchedEmployee = $("#Employee-search").val().trim();
+
+      searchedEmployee = searchedEmployee.replace(/\s+/g, "").toLowerCase();
+
+      $.get("/api/" + searchedEmployee, function(data) {
+        console.log(data);
+        if (data) {
+          $("#stats").show();
+          $("#name").text(data.name);
+          $("#role").text(data.role);
+          $("#age").text(data.age);
+          $("#typing-speed").text(data.typingSpeed);
+        }
+        else {
+          $("#name").text("Sorry we could not find this employee.");
+          $("#stats").hide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
